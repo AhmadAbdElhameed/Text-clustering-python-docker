@@ -1,0 +1,32 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clustering Results</title>
+</head>
+<body>
+    <h1>Clustering Results</h1>
+    
+    <h2>Clusters</h2>
+    {% for cluster_id, cluster_data in data.groupby('cluster_sum') %}
+    <h3>Cluster {{ cluster_id }}</h3>
+    {% for index, row in cluster_data.iterrows() %}
+    <p>{{ row['text'] }}</p>
+    {% endfor %}
+    {% endfor %}
+    
+    <h2>Top Keywords</h2>
+    {% for key, value in top_keywords.items() %}
+    <h3>Cluster {{ key }}</h3>
+    <p>{{ value }}</p>
+    {% endfor %}
+    
+    <h2>Download Results</h2>
+    <form action="/download" method="post">
+        <input type="hidden" name="zip_buffer" value="{{ zip_buffer | b64encode }}">
+        <input type="submit" value="Download Results">
+    </form>
+</body>
+</html>
